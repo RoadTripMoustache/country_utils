@@ -12,11 +12,12 @@ class CacheService {
 
   /// List of the countries built with the current locale values.
   static List<Country> _countries = List.empty();
-  
+
   static Map<String, String>? get localizedStrings {
     _validateCache();
     return _localizedStrings;
   }
+
   static List<Country> get countries {
     _validateCache();
     return _countries;
@@ -26,9 +27,11 @@ class CacheService {
   /// the new localized names.
   static void updateLocalizedStrings(Map<String, String> localizedStrings) {
     _localizedStrings = localizedStrings;
-    _countries = CountryData.values.map(
+    _countries = CountryData.values
+        .map(
           (data) => Country.data(data, _localizedStrings![data.name]!),
-    ).toList();
+        )
+        .toList();
   }
 
   /// Validate if the cache is ready to be used. If not throws a

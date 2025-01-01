@@ -29,8 +29,8 @@ class Country {
     required this.dialCode,
   });
 
-  factory Country.data(CountryData data, String localizedName) =>
-      Country(name: localizedName,
+  factory Country.data(CountryData data, String localizedName) => Country(
+        name: localizedName,
         dialCode: data.callingCode,
         isoCodeAlpha2: data.isoCodeAlpha2,
         isoCodeAlpha3: data.isoCodeAlpha3,
@@ -38,5 +38,4 @@ class Country {
 
   @override
   String toString() => "[$isoCodeAlpha2] $name";
-
 }
