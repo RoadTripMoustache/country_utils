@@ -1,0 +1,63 @@
+name: Build, format, lint and test the application
+on:
+  pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '.metadata'
+      - 'README.md'
+      - '.github/**'
+      - '.githooks/**'
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+permissions:
+  pull-requests: write
+  contents: write
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: Run the tests and checks
+    runs-on: ubuntu-latest
+    outputs:
+      coverage: ${{ steps.coverage.outputs.percentage }}
+    steps:
+      #### SETUP ####
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - run: flutter doctor
+      - name: Get dependencies
+        run: flutter pub get
+      - name: Generate files
+        run: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter pub get # Temporary until https://github.com/flutter/flutter/issues/148333 is solved
+
+      ### CHECKS ###
+      # Check the format of the code and commit the formatted files.
+      - name: Format files in lib and test directories
+        run: dart format lib/src lib/avatar_maker.dart test --set-exit-if-changed
+
+      # Check if the code has any errors/warnings
+      - name: Analyze code
+        run: flutter analyze
+
+      # Run tests
+      - name: Run tests
+        run: flutter test --coverage
+      - name: Comment the coverage of the PR
+        uses: romeovs/lcov-reporter-action@v0.4.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+          filter-changed-files: true
+

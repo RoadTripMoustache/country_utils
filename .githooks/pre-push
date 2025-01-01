@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo -e "\033[0;34m-- Lint --\033[0m"
+dart format lib test --set-exit-if-changed
+
+# Check for uncommitted changes
+echo -e "\033[0;34m-- Check uncommitted files --\033[0m"
+git diff --cached --quiet >/dev/null 2>&1
+
+if [[ $? -eq 0 ]]; then
+  echo "No files to commit"
+else
+  echo -e "\033[0;31mFiles are not committed. Please commit or stash them before pushing again.\033[0m"
+  exit 1
+fi
+
+echo -e "\033[0;34m-- Flutter analyze --\033[0m"
+flutter analyze
+

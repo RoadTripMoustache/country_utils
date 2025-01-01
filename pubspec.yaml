@@ -1,0 +1,21 @@
+name: country_code_utils
+description: "A Flutter package providing easy access to country names, ISO codes (alpha-2, alpha-3, numeric), and more. Streamline your development with convenient functions for country data retrieval and manipulation."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 0.1.0
+homepage: https://github.com/RoadTripMoustache/country_code_utils
+
+environment:
+  sdk: '>=3.0.5 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
