@@ -19,9 +19,9 @@ Below you will find the process and workflow used to review and merge your chang
 ## Step 2 : Fork the Project
 - Fork this Repository. This will create a Local Copy of this Repository on your Github Profile. Keep a reference to the original project in `upstream` remote.
 ```
-$ git clone https://github.com/<your-username>/country_code_utils
-$ cd country_code_utils
-$ git remote add upstream https://github.com/RoadTripMoustache/country_code_utils
+$ git clone https://github.com/<your-username>/country_utils
+$ cd country_utils
+$ git remote add upstream https://github.com/RoadTripMoustache/country_utils
 ```
 
 - If you have already forked the project, update your copy before working.
@@ -54,12 +54,12 @@ $ flutter run
 ```
 
 ## Step 6 : Add and Commit changes
-- IMPORTANT: You need to be in the project root folder _(not in `country_code_utils/example/` )_ for all git commands.
+- IMPORTANT: You need to be in the project root folder _(not in `country_utils/example/` )_ for all git commands.
 ```
 # To go back to the project root from example folder
 $ cd ..
 ```
-  > or you can just launch a new terminal window in `country_code_utils/` folder 
+  > or you can just launch a new terminal window in `country_utils/` folder 
 
 - Add all the files/folders needed.
 - After you've made changes or made your contribution to the project add changes to the branch you've just created by:
