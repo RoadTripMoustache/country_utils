@@ -3,6 +3,8 @@ import "package:country_utils/src/exceptions/localization_not_loaded_exception.d
 import "package:country_utils/src/models/country.dart";
 
 /// Used to store some information shared between services.
+///
+/// **This service must stay internal.**
 class CacheService {
   /// Map of the localized country names.
   ///
