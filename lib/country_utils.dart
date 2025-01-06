@@ -9,3 +9,6 @@ export "src/models/country.dart";
 
 // Services
 export "src/services/country_service.dart";
+
+// Widgets
+export "src/widgets/country_flag.dart";
