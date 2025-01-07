@@ -33,15 +33,15 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RTMCountryFlag(countryCode: "JPN"),
-            RTMCountryFlag(countryCode: "au"),
-            RTMCountryFlag(countryCode: "De"),
-          ],
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RTMCountryFlag(countryCode: "JPN"),
+              RTMCountryFlag(countryCode: "au"),
+              RTMCountryFlag(countryCode: "De"),
+            ],
+          ),
         ),
-      ),
-    );
+      );
 }
