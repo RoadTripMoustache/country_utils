@@ -7,6 +7,8 @@ A Flutter package providing easy access to country names, ISO codes *(alpha-2, a
 ---
 
 ## Usage
+If you want to have ready-to-use examples of the library, please check [`example/README.md`](./example/README.md). You will find there all the example projects for all the services, widgets...
+
 ### Prerequisites
 To use one of the **69 supported languages** when using a widget from this library, you need to add `CountryLocalizations.delegate` in the list of your app delegates.
 
