@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           Locale("en"),
           Locale("es"),
         ],
-        title: "country_utils - CountryService",
+        title: "country_utils - Services",
         locale: Locale("es"),
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -32,16 +32,17 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RTMCountryFlag(countryCode: "JPN"),
-              RTMCountryFlag(countryCode: "au"),
-              RTMCountryFlag(countryCode: "De"),
-            ],
-          ),
+  Widget build(BuildContext context) {
+    final Country? country = CountryService.getCountryByCode("JPN");
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(country?.name ?? "Country not found"),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
