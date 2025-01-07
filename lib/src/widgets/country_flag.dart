@@ -43,6 +43,7 @@ class RTMCountryFlag extends StatelessWidget {
     // Search for the country by its code to have more flexibility on the kind
     // of code used.
     final Country? country = CountryService.getCountryByCode(countryCode);
+
     if (country == null) {
       throw CountryNotFoundException(
         "No country where found with the code $countryCode",
