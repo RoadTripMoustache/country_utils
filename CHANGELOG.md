@@ -1,4 +1,6 @@
 ## Unreleased
+
+## 0.2.0 - 07/01/2025
 ### Added
 - feat: Add `RTMCountryFlag` widget to facilitate the display of a flag
 - docs: Add examples about how to use the library

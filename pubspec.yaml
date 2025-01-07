@@ -1,6 +1,6 @@
 name: country_utils
 description: "A Flutter package providing easy access to country names, ISO codes and more. Streamline your development with functions for country data retrieval and manipulation."
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/RoadTripMoustache/country_utils
 
 environment:
