@@ -2,24 +2,13 @@
 
 ![Pub Version](https://img.shields.io/pub/v/country_utils) [![GitHub stars](https://img.shields.io/github/stars/RoadTripMoustache/country_utils?style=social)](https://github.com/psk907/fluttermoji/stargazers)
 
-A Flutter package providing easy access to country names, ISO codes (alpha-2, alpha-3, numeric), and more. Streamline your development with convenient functions for country data retrieval and manipulation.
+A Flutter package providing easy access to country names, ISO codes *(alpha-2, alpha-3, numeric)*, and more. Streamline your development with convenient functions for country data retrieval and manipulation.
 
 ---
 
-## Features
-Currently a `Country` object contains :
-- the localized name
-- the ISO Code Alpha 2 *(ex: "US" for the United-States)*
-- the ISO Code Alpha 3 *(ex: "FRA" for France)*
-- the dial code
-
-### CountryService
-|Method|Params|Returned type|Description|
-|---|---|---|---|
-|getCountryByCode|String countryCode|Country?|Retrieve the country with the [countryCode] given in parameter. It can be the ISO code Alpha 2 or 3 which can be used. If no countries are find, returns `null`.|
-|getCountries|*/*|List<Country>|Returns the list of countries.|
-
 ## Usage
+If you want to have ready-to-use examples of the library, please check [`example/README.md`](./example/README.md). You will find there all the example projects for all the services, widgets...
+
 ### Prerequisites
 To use one of the **69 supported languages** when using a widget from this library, you need to add `CountryLocalizations.delegate` in the list of your app delegates.
 
@@ -46,6 +35,45 @@ final List<Country> countries = CountryService.getCountries();
 // To get a country by its ISO Code
 final Country country = CountryService.getCountryByCode("FR");
 ```
+
+### Use a widget
+```dart
+// Display the japanese flag
+RTMCountryFlag(countryCode: "JP")
+```
+
+---
+
+## Features
+### Models
+#### Country
+Currently a `Country` object contains :
+- the localized name
+- the ISO Code Alpha 2 *(ex: "US" for the United-States)*
+- the ISO Code Alpha 3 *(ex: "FRA" for France)*
+- the dial code
+
+### Services
+#### CountryService
+|Method|Params|Returned type|Description|
+|---|---|---|---|
+|getCountryByCode|String countryCode|Country?|Retrieve the country with the [countryCode] given in parameter. It can be the ISO code Alpha 2 or 3 which can be used. If no countries are find, returns `null`.|
+|getCountries|*/*|List<Country>|Returns the list of countries.|
+
+### Widgets
+#### RTMCountryFlag
+Displays the flag of a selected country. The country is defined by the ISO code given to the widget. It can be the ISO Code Alpha 2 or Alpha 3 which can be used.
+
+*Both of the following examples will display the japanese flag.*
+```dart
+// ISO Code Alpha 2 example
+RTMCountryFlag(countryCode: "JP")
+
+// ISO Code Alpha 3 example
+RTMCountryFlag(countryCode: "JPN")
+```
+
+To have more information on all the other parameters of this widget, please check the [widget class here](./lib/src/widgets/country_flag.dart).
 
 ---
 
