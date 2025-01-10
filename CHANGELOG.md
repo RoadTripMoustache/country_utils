@@ -1,4 +1,6 @@
 ## Unreleased
+### Fixed
+- fix: Timor-Leste ISO Alpha 2 value
 
 ## 0.2.0 - 07/01/2025
 ### Added

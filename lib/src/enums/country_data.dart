@@ -1098,7 +1098,7 @@ enum CountryData {
     callingCode: "+66",
   ),
   TL(
-    isoCodeAlpha2: "TLS",
+    isoCodeAlpha2: "TL",
     isoCodeAlpha3: "TLS",
     callingCode: "+670",
   ),
