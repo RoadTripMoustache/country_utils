@@ -1,6 +1,7 @@
 ## Unreleased
 ### Fixed
 - fix: Timor-Leste ISO Alpha 2 value
+- fix: Caiman island french name
 
 ## 0.2.0 - 07/01/2025
 ### Added
