@@ -49,7 +49,7 @@ class SelectionMultiDialog extends StatefulWidget {
     this.barrierColor,
     this.hideSearch = false,
     this.closeIcon,
-  }){
+  }) {
     this.searchDecoration = searchDecoration.prefixIcon == null
         ? searchDecoration.copyWith(prefixIcon: Icon(Icons.search))
         : searchDecoration;
