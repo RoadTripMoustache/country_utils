@@ -11,4 +11,6 @@ export "src/models/country.dart";
 export "src/services/country_service.dart";
 
 // Widgets
+export "src/widgets/countries_picker.dart";
 export "src/widgets/country_flag.dart";
+export "src/widgets/country_picker.dart";
