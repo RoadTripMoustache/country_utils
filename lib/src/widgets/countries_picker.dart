@@ -8,7 +8,6 @@ import "package:country_utils/src/widgets/selection_single_dialog.dart";
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-
 class CountriesPicker extends StatefulWidget {
   final ValueChanged<List<Country>>? onChanged;
   final ValueChanged<List<Country>>? onInit;
@@ -130,13 +129,13 @@ class CountriesPicker extends StatefulWidget {
 
     if (countryFilter != null && countryFilter!.isNotEmpty) {
       final uppercaseCustomList =
-      countryFilter!.map((c) => c.toUpperCase()).toList();
+          countryFilter!.map((c) => c.toUpperCase()).toList();
       elements = elements
           .where((c) =>
-      uppercaseCustomList.contains(c.isoCodeAlpha2) ||
-      uppercaseCustomList.contains(c.isoCodeAlpha3) ||
-          uppercaseCustomList.contains(c.name) ||
-          uppercaseCustomList.contains(c.dialCode))
+              uppercaseCustomList.contains(c.isoCodeAlpha2) ||
+              uppercaseCustomList.contains(c.isoCodeAlpha3) ||
+              uppercaseCustomList.contains(c.name) ||
+              uppercaseCustomList.contains(c.dialCode))
           .toList();
     }
 
@@ -169,10 +168,14 @@ class CountriesPickerState extends State<CountriesPicker> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               if (selectedItem.isEmpty)
-                Text("Choose a country", style: TextStyle(color: Colors.white70),),
-              if (selectedItem.isNotEmpty && (widget.showFlagMain != null
-                  ? widget.showFlagMain!
-                  : widget.showFlag))
+                Text(
+                  "Choose a country",
+                  style: TextStyle(color: Colors.white70),
+                ),
+              if (selectedItem.isNotEmpty &&
+                  (widget.showFlagMain != null
+                      ? widget.showFlagMain!
+                      : widget.showFlag))
                 Flexible(
                   flex: widget.alignLeft ? 0 : 1,
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
@@ -196,8 +199,8 @@ class CountriesPickerState extends State<CountriesPicker> {
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
                   child: Text(
                     selectedItem[0].name,
-                    style:
-                    widget.textStyle ?? Theme.of(context).textTheme.bodyMedium,
+                    style: widget.textStyle ??
+                        Theme.of(context).textTheme.bodyMedium,
                     overflow: widget.textOverflow,
                   ),
                 ),
@@ -236,20 +239,21 @@ class CountriesPickerState extends State<CountriesPicker> {
 
     if (oldWidget.initialSelection != widget.initialSelection) {
       if (widget.initialSelection.isNotEmpty) {
-        selectedItem = elements.where((e) {
-          bool isSelected = false;
-          for (final element in widget.initialSelection) {
-            if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
-                element.toUpperCase() == e.isoCodeAlpha3.toUpperCase() ||
-                element.toUpperCase() == e.dialCode.toUpperCase() ||
-                element.toUpperCase() == e.name.toUpperCase()
-            ) {
-              isSelected = true;
-              break;
+        selectedItem = elements.where(
+          (e) {
+            bool isSelected = false;
+            for (final element in widget.initialSelection) {
+              if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
+                  element.toUpperCase() == e.isoCodeAlpha3.toUpperCase() ||
+                  element.toUpperCase() == e.dialCode.toUpperCase() ||
+                  element.toUpperCase() == e.name.toUpperCase()) {
+                isSelected = true;
+                break;
+              }
             }
-          }
-          return isSelected;
-        },).toList();
+            return isSelected;
+          },
+        ).toList();
       } else {
         selectedItem = [];
       }
@@ -262,78 +266,79 @@ class CountriesPickerState extends State<CountriesPicker> {
     super.initState();
 
     if (widget.initialSelection.isNotEmpty) {
-      selectedItem = elements.where((e) {
-        bool isSelected = false;
-        for (final element in widget.initialSelection) {
-          if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
-              element.toUpperCase() == e.isoCodeAlpha3.toUpperCase() ||
-              element.toUpperCase() == e.dialCode.toUpperCase() ||
-              element.toUpperCase() == e.name.toUpperCase()
-          ) {
-            isSelected = true;
-            break;
+      selectedItem = elements.where(
+        (e) {
+          bool isSelected = false;
+          for (final element in widget.initialSelection) {
+            if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
+                element.toUpperCase() == e.isoCodeAlpha3.toUpperCase() ||
+                element.toUpperCase() == e.dialCode.toUpperCase() ||
+                element.toUpperCase() == e.name.toUpperCase()) {
+              isSelected = true;
+              break;
+            }
           }
-        }
-        return isSelected;
-      },).toList();
+          return isSelected;
+        },
+      ).toList();
     } else {
       selectedItem = [];
     }
 
     favoriteElements = elements
         .where((e) =>
-    widget.favorite.firstWhereOrNull((f) =>
-    e.isoCodeAlpha2.toUpperCase() == f.toUpperCase() ||
-    e.isoCodeAlpha3.toUpperCase() == f.toUpperCase() ||
-        e.dialCode == f ||
-        e.name.toUpperCase() == f.toUpperCase()) !=
-        null)
+            widget.favorite.firstWhereOrNull((f) =>
+                e.isoCodeAlpha2.toUpperCase() == f.toUpperCase() ||
+                e.isoCodeAlpha3.toUpperCase() == f.toUpperCase() ||
+                e.dialCode == f ||
+                e.name.toUpperCase() == f.toUpperCase()) !=
+            null)
         .toList();
   }
 
   void showCountryPickerDialog() {
-      showDialog(
-        barrierColor: widget.barrierColor ?? Colors.black.withOpacity(0.2),
-        // backgroundColor: widget.backgroundColor ?? Colors.transparent,
-        context: context,
-        builder: (context) => Center(
-          child: Container(
-            constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
-            child: Dialog(
-              child: SelectionMultiDialog(
-                elements,
-                selectedItem,
-                favoriteElements,
-                showCountryOnly: widget.showCountryOnly,
-                emptySearchBuilder: widget.emptySearchBuilder,
-                searchDecoration: widget.searchDecoration,
-                searchStyle: widget.searchStyle,
-                textStyle: widget.dialogTextStyle,
-                selectedTextStyle: widget.selectedTextStyle,
-                boxDecoration: widget.boxDecoration,
-                showFlag: widget.showFlagDialog != null
-                    ? widget.showFlagDialog
-                    : widget.showFlag,
-                flagWidth: widget.flagWidth,
-                size: widget.dialogSize,
-                backgroundColor: widget.dialogBackgroundColor,
-                barrierColor: widget.barrierColor,
-                hideSearch: widget.hideSearch,
-                closeIcon: widget.closeIcon,
-                flagDecoration: widget.flagDecoration,
-              ),
+    showDialog(
+      barrierColor: widget.barrierColor ?? Colors.black.withOpacity(0.2),
+      // backgroundColor: widget.backgroundColor ?? Colors.transparent,
+      context: context,
+      builder: (context) => Center(
+        child: Container(
+          constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
+          child: Dialog(
+            child: SelectionMultiDialog(
+              elements,
+              selectedItem,
+              favoriteElements,
+              showCountryOnly: widget.showCountryOnly,
+              emptySearchBuilder: widget.emptySearchBuilder,
+              searchDecoration: widget.searchDecoration,
+              searchStyle: widget.searchStyle,
+              textStyle: widget.dialogTextStyle,
+              selectedTextStyle: widget.selectedTextStyle,
+              boxDecoration: widget.boxDecoration,
+              showFlag: widget.showFlagDialog != null
+                  ? widget.showFlagDialog
+                  : widget.showFlag,
+              flagWidth: widget.flagWidth,
+              size: widget.dialogSize,
+              backgroundColor: widget.dialogBackgroundColor,
+              barrierColor: widget.barrierColor,
+              hideSearch: widget.hideSearch,
+              closeIcon: widget.closeIcon,
+              flagDecoration: widget.flagDecoration,
             ),
           ),
         ),
-      ).then((e) {
-        if (e != null) {
-          setState(() {
-            selectedItem = e;
-          });
+      ),
+    ).then((e) {
+      if (e != null) {
+        setState(() {
+          selectedItem = e;
+        });
 
-          _publishSelection(e);
-        }
-      });
+        _publishSelection(e);
+      }
+    });
   }
 
   void _publishSelection(List<Country> e) {
