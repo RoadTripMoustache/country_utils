@@ -7,7 +7,7 @@ class SelectionMultiDialog extends StatefulWidget {
   final List<Country> elements;
   final List<Country> selected;
   final bool? showCountryOnly;
-  final InputDecoration searchDecoration;
+  late final InputDecoration searchDecoration;
   final TextStyle? searchStyle;
   final TextStyle? textStyle;
   final TextStyle? selectedTextStyle;
@@ -49,10 +49,12 @@ class SelectionMultiDialog extends StatefulWidget {
     this.barrierColor,
     this.hideSearch = false,
     this.closeIcon,
-  })  : this.searchDecoration = searchDecoration.prefixIcon == null
-            ? searchDecoration.copyWith(prefixIcon: Icon(Icons.search))
-            : searchDecoration,
-        super(key: key);
+  }){
+    this.searchDecoration = searchDecoration.prefixIcon == null
+        ? searchDecoration.copyWith(prefixIcon: Icon(Icons.search))
+        : searchDecoration;
+    print("BUILD ;; $selected");
+  }
 
   @override
   State<StatefulWidget> createState() => _SelectionMultiDialogState();
@@ -201,6 +203,7 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
 
   @override
   void initState() {
+    print("INIT STATE !! ");
     updatedSelection = widget.selected;
     updatedSelection.sort(
       (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),

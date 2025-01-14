@@ -116,6 +116,7 @@ class CountriesPicker extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
+    print("this.initialSelection :::: ${this.initialSelection}");
     List<Country> elements = List.empty(growable: true);
 
     if (countryList != null) {
@@ -144,7 +145,7 @@ class CountriesPicker extends StatefulWidget {
 }
 
 class CountriesPickerState extends State<CountriesPicker> {
-  List<Country> selectedItem = [];
+  List<Country> selectedItems = [];
   List<Country> elements = [];
   List<Country> favoriteElements = [];
 
@@ -156,7 +157,7 @@ class CountriesPickerState extends State<CountriesPicker> {
     if (widget.builder != null)
       _widget = InkWell(
         onTap: showCountryPickerDialog,
-        child: widget.builder!(selectedItem),
+        child: widget.builder!(selectedItems),
       );
     else {
       _widget = TextButton(
@@ -167,12 +168,12 @@ class CountriesPickerState extends State<CountriesPicker> {
             direction: Axis.horizontal,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (selectedItem.isEmpty)
+              if (selectedItems.isEmpty)
                 Text(
                   "Choose a country",
                   style: TextStyle(color: Colors.white70),
                 ),
-              if (selectedItem.isNotEmpty &&
+              if (selectedItems.isNotEmpty &&
                   (widget.showFlagMain != null
                       ? widget.showFlagMain!
                       : widget.showFlag))
@@ -188,17 +189,17 @@ class CountriesPickerState extends State<CountriesPicker> {
                         ? const EdgeInsets.only(right: 16.0, left: 8.0)
                         : const EdgeInsets.only(right: 16.0),
                     child: RTMCountryFlag(
-                      countryCode: selectedItem[0].isoCodeAlpha2,
+                      countryCode: selectedItems[0].isoCodeAlpha2,
                       width: widget.flagWidth,
                       fit: BoxFit.fill,
                     ),
                   ),
                 ),
-              if (selectedItem.isNotEmpty && !widget.hideMainText)
+              if (selectedItems.isNotEmpty && !widget.hideMainText)
                 Flexible(
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
                   child: Text(
-                    selectedItem[0].name,
+                    selectedItems[0].name,
                     style: widget.textStyle ??
                         Theme.of(context).textTheme.bodyMedium,
                     overflow: widget.textOverflow,
@@ -230,16 +231,17 @@ class CountriesPickerState extends State<CountriesPicker> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    _onInit(selectedItem);
+    _onInit(selectedItems);
   }
 
   @override
   void didUpdateWidget(CountriesPicker oldWidget) {
+    print("didUpdateWidget 00 :: $selectedItems");
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.initialSelection != widget.initialSelection) {
       if (widget.initialSelection.isNotEmpty) {
-        selectedItem = elements.where(
+        selectedItems = elements.where(
           (e) {
             bool isSelected = false;
             for (final element in widget.initialSelection) {
@@ -254,19 +256,23 @@ class CountriesPickerState extends State<CountriesPicker> {
             return isSelected;
           },
         ).toList();
+        print("didUpdateWidget 1 :: $selectedItems");
       } else {
-        selectedItem = [];
+        selectedItems = [];
+        print("didUpdateWidget 2 :: $selectedItems");
       }
-      _onInit(selectedItem);
+      _onInit(selectedItems);
     }
+    print("didUpdateWidget :: $selectedItems");
   }
 
   @override
   void initState() {
+    print(">>> widget.initialSelection :: ${widget.initialSelection}");
     super.initState();
 
     if (widget.initialSelection.isNotEmpty) {
-      selectedItem = elements.where(
+      selectedItems = elements.where(
         (e) {
           bool isSelected = false;
           for (final element in widget.initialSelection) {
@@ -281,8 +287,10 @@ class CountriesPickerState extends State<CountriesPicker> {
           return isSelected;
         },
       ).toList();
+      print("initState 1 :: $selectedItems");
     } else {
-      selectedItem = [];
+      selectedItems = [];
+      print("initState 2 :: $selectedItems");
     }
 
     favoriteElements = elements
@@ -294,9 +302,13 @@ class CountriesPickerState extends State<CountriesPicker> {
                 e.name.toUpperCase() == f.toUpperCase()) !=
             null)
         .toList();
+    print("initState :: $selectedItems");
   }
 
+  // TODO DOC README
+  // TODO CHANGELOG
   void showCountryPickerDialog() {
+    print("showCountryPickerDialog :: $selectedItems");
     showDialog(
       barrierColor: widget.barrierColor ?? Colors.black.withOpacity(0.2),
       // backgroundColor: widget.backgroundColor ?? Colors.transparent,
@@ -306,9 +318,9 @@ class CountriesPickerState extends State<CountriesPicker> {
           constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
           child: Dialog(
             child: SelectionMultiDialog(
-              elements,
-              selectedItem,
-              favoriteElements,
+              List.of(elements),
+              List.of(selectedItems),
+              List.of(favoriteElements),
               showCountryOnly: widget.showCountryOnly,
               emptySearchBuilder: widget.emptySearchBuilder,
               searchDecoration: widget.searchDecoration,
@@ -331,9 +343,11 @@ class CountriesPickerState extends State<CountriesPicker> {
         ),
       ),
     ).then((e) {
+      print("RECEIVE DATA :: $e");
       if (e != null) {
         setState(() {
-          selectedItem = e;
+          selectedItems = e;
+          print("open diagog 1 :: $selectedItems");
         });
 
         _publishSelection(e);
