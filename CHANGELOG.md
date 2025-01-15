@@ -1,4 +1,7 @@
 ## Unreleased
+
+
+## 0.3.0 - 14/01/2025
 ### Added
 - feat: Add CountryPicker and CountriesPicker
 
