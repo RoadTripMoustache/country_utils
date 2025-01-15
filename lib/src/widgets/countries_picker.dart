@@ -77,7 +77,13 @@ class CountriesPicker extends StatefulWidget {
   /// with customized codes.
   final List<Country>? countryList;
 
+  final Widget? placeholder;
+  final ButtonStyle? textButtonStyle;
+  final ButtonStyle? confirmButtonStyle;
+  final Widget? confirmationButtonContent;
+
   CountriesPicker({
+    this.placeholder,
     this.onChanged,
     this.onInit,
     this.initialSelection = const [],
@@ -111,6 +117,9 @@ class CountriesPicker extends StatefulWidget {
     this.dialogBackgroundColor,
     this.closeIcon = const Icon(Icons.close),
     this.countryList,
+    this.textButtonStyle,
+    this.confirmButtonStyle,
+    this.confirmationButtonContent,
     Key? key,
   }) : super(key: key);
 
@@ -153,14 +162,15 @@ class CountriesPickerState extends State<CountriesPicker> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _widget;
-    if (widget.builder != null)
-      _widget = InkWell(
+    Widget builtWidget;
+    if (widget.builder != null) {
+      builtWidget = InkWell(
         onTap: showCountryPickerDialog,
         child: widget.builder!(selectedItems),
       );
-    else {
-      _widget = TextButton(
+    } else {
+      builtWidget = TextButton(
+        style: widget.textButtonStyle,
         onPressed: widget.enabled ? showCountryPickerDialog : null,
         child: Padding(
           padding: widget.padding,
@@ -169,10 +179,7 @@ class CountriesPickerState extends State<CountriesPicker> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               if (selectedItems.isEmpty)
-                Text(
-                  "Choose a country",
-                  style: TextStyle(color: Colors.white70),
-                ),
+                widget.placeholder ?? Text("..."),
               if (selectedItems.isNotEmpty &&
                   (widget.showFlagMain != null
                       ? widget.showFlagMain!
@@ -205,6 +212,16 @@ class CountriesPickerState extends State<CountriesPicker> {
                     overflow: widget.textOverflow,
                   ),
                 ),
+              if (selectedItems.isNotEmpty && selectedItems.length > 1)
+                Flexible(
+                  fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
+                  child: Text(
+                    " (+ ${selectedItems.length -1})",
+                    style: widget.textStyle ??
+                        Theme.of(context).textTheme.bodyMedium,
+                    overflow: widget.textOverflow,
+                  ),
+                ),
               if (widget.showDropDownButton)
                 Flexible(
                   flex: widget.alignLeft ? 0 : 1,
@@ -224,7 +241,7 @@ class CountriesPickerState extends State<CountriesPicker> {
         ),
       );
     }
-    return _widget;
+    return builtWidget;
   }
 
   @override
@@ -340,6 +357,8 @@ class CountriesPickerState extends State<CountriesPicker> {
               hideSearch: widget.hideSearch,
               closeIcon: widget.closeIcon,
               flagDecoration: widget.flagDecoration,
+              confirmButtonStyle: widget.confirmButtonStyle,
+              confirmationButtonContent: widget.confirmationButtonContent,
             ),
           ),
         ),

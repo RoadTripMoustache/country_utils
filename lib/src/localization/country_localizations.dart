@@ -31,6 +31,7 @@ class CountryLocalizations {
           key,
           value.toString(),
         ));
+    print(_localizedStrings);
     CacheService.updateLocalizedStrings(_localizedStrings);
 
     return true;

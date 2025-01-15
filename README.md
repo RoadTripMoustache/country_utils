@@ -160,4 +160,4 @@ Any help is heartily appreciated, whatever if you code or open issues. 😀
 
 ## Credits
 
-- [imtoori/CountryCodePicker](https://github.com/imtoori/CountryCodePicker.git) - For countries names translations, flags and `CountryLocalizations`.
+- [imtoori/CountryCodePicker](https://github.com/imtoori/CountryCodePicker.git) - For countries names translations, flags, `CountryLocalizations` and the widgets.

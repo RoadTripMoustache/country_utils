@@ -28,6 +28,9 @@ class SelectionMultiDialog extends StatefulWidget {
 
   /// elements passed as favorite
   final List<Country> favoriteElements;
+  final ButtonStyle? confirmButtonStyle;
+  final Widget? confirmationButtonContent;
+
 
   SelectionMultiDialog(
     this.elements,
@@ -49,6 +52,8 @@ class SelectionMultiDialog extends StatefulWidget {
     this.barrierColor,
     this.hideSearch = false,
     this.closeIcon,
+    this.confirmButtonStyle,
+    this.confirmationButtonContent,
   }) {
     this.searchDecoration = searchDecoration.prefixIcon == null
         ? searchDecoration.copyWith(prefixIcon: Icon(Icons.search))
@@ -94,7 +99,7 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
                 padding: const EdgeInsets.all(0),
                 iconSize: 20,
                 icon: widget.closeIcon!,
-                onPressed: () => Navigator.pop(context, updatedSelection),
+                onPressed: () => Navigator.pop(context),
               ),
               if (!widget.hideSearch)
                 Padding(
@@ -154,6 +159,16 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
                   ],
                 ),
               ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: FilledButton(
+                      style: widget.confirmButtonStyle,
+                      onPressed: () {
+                    Navigator.pop(context, updatedSelection);
+                  }, child: widget.confirmationButtonContent ?? Text("OK")),
+                ),
+              ),
             ],
           ),
         ),
@@ -195,6 +210,12 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
       return widget.emptySearchBuilder!(context);
     }
 
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    print(CountryLocalizations.of(context));
+    print(CountryLocalizations.of(context)?.translate("no_country"));
     return Center(
       child: Text(CountryLocalizations.of(context)?.translate("no_country") ??
           "No country found"),
@@ -217,15 +238,15 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
   }
 
   void _filterElements(String s) {
-    s = s.toUpperCase();
+    final String upperS = s.toUpperCase();
     setState(() {
       filteredElements = widget.elements
           .where((c) => !updatedSelection.contains(c))
           .where((e) =>
-              e.isoCodeAlpha2.contains(s) ||
-              e.isoCodeAlpha3.contains(s) ||
-              e.dialCode.contains(s) ||
-              e.name.toUpperCase().contains(s))
+              e.isoCodeAlpha2.toUpperCase().contains(upperS) ||
+              e.isoCodeAlpha3.toUpperCase().contains(upperS) ||
+              e.dialCode.toUpperCase().contains(upperS) ||
+              e.name.toUpperCase().contains(upperS))
           .toList();
       filteredElements.sort(
         (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
@@ -235,10 +256,12 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
 
   void _selectItem(Country e) {
     setState(() {
-      updatedSelection.add(e);
-      updatedSelection.sort(
-        (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
-      );
+      updatedSelection
+        ..add(e)
+        ..sort(
+          (a, b) =>
+              removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
+        );
       filteredElements = filteredElements.where((c) => c != e).toList();
       filteredElements.sort(
         (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
@@ -248,14 +271,18 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
 
   void _unselectItem(Country e) {
     setState(() {
-      updatedSelection.remove(e);
-      updatedSelection.sort(
-        (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
-      );
-      filteredElements.add(e);
-      filteredElements.sort(
-        (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
-      );
+      updatedSelection
+        ..remove(e)
+        ..sort(
+          (a, b) =>
+              removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
+        );
+      filteredElements
+        ..add(e)
+        ..sort(
+          (a, b) =>
+              removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
+        );
     });
   }
 }
