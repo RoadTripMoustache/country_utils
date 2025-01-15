@@ -40,6 +40,12 @@ final Country country = CountryService.getCountryByCode("FR");
 ```dart
 // Display the japanese flag
 RTMCountryFlag(countryCode: "JP")
+
+// Display a customizable button to select a country
+RTMCountryPicker()
+
+// Display a customizable button to select multiple countries
+RTMCountriesPicker()
 ```
 
 ---
@@ -74,6 +80,34 @@ RTMCountryFlag(countryCode: "JPN")
 ```
 
 To have more information on all the other parameters of this widget, please check the [widget class here](./lib/src/widgets/country_flag.dart).
+
+#### RTMCountryPicker
+Fully customizable widget which displays a button which opens a dialog allowing the user to select a country. In the dialog, a text field is available to let the user filter countries on the name, ISO code or dial code.
+
+```dart
+// Default country picker which display the selected country on change
+RTMCountryPicker(onChanged: (Country c) => print(c))
+
+// Picker with a custom widget to display the selector and/or the selection
+RTMCountryPicker(
+    builder: (Country c) => Text("Select a country"),
+    onChanged: (Country c) => print(c),
+)
+```
+
+#### RTMCountriesPicker
+Fully customizable widget which displays a button which opens a dialog allowing the user to select a list of country. In the dialog, a text field is available to let the user filter countries on the name, ISO code or dial code.
+
+```dart
+// Default countries picker which display the selected country on change
+RTMCountriesPicker(onChanged: (List<Country> c) => print(c))
+
+// Picker with a custom widget to display the selector and/or the selection
+RTMCountriesPicker(
+    builder: (List<Country> countryList) => Text("Select countries"),
+    onChanged: (List<Country> c) => print(c),
+)
+```
 
 ---
 
@@ -160,4 +194,4 @@ Any help is heartily appreciated, whatever if you code or open issues. 😀
 
 ## Credits
 
-- [imtoori/CountryCodePicker](https://github.com/imtoori/CountryCodePicker.git) - For countries names translations, flags and `CountryLocalizations`.
+- [imtoori/CountryCodePicker](https://github.com/imtoori/CountryCodePicker.git) - For countries names translations, flags, `CountryLocalizations` and the widgets.
