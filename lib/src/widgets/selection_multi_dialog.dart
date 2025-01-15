@@ -31,7 +31,6 @@ class SelectionMultiDialog extends StatefulWidget {
   final ButtonStyle? confirmButtonStyle;
   final Widget? confirmationButtonContent;
 
-
   SelectionMultiDialog(
     this.elements,
     this.selected,
@@ -165,8 +164,9 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
                   child: FilledButton(
                       style: widget.confirmButtonStyle,
                       onPressed: () {
-                    Navigator.pop(context, updatedSelection);
-                  }, child: widget.confirmationButtonContent ?? Text("OK")),
+                        Navigator.pop(context, updatedSelection);
+                      },
+                      child: widget.confirmationButtonContent ?? Text("OK")),
                 ),
               ),
             ],

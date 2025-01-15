@@ -178,8 +178,7 @@ class CountriesPickerState extends State<CountriesPicker> {
             direction: Axis.horizontal,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (selectedItems.isEmpty)
-                widget.placeholder ?? Text("..."),
+              if (selectedItems.isEmpty) widget.placeholder ?? Text("..."),
               if (selectedItems.isNotEmpty &&
                   (widget.showFlagMain != null
                       ? widget.showFlagMain!
@@ -216,7 +215,7 @@ class CountriesPickerState extends State<CountriesPicker> {
                 Flexible(
                   fit: widget.alignLeft ? FlexFit.tight : FlexFit.loose,
                   child: Text(
-                    " (+ ${selectedItems.length -1})",
+                    " (+ ${selectedItems.length - 1})",
                     style: widget.textStyle ??
                         Theme.of(context).textTheme.bodyMedium,
                     overflow: widget.textOverflow,
