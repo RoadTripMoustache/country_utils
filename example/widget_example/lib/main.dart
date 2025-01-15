@@ -40,8 +40,17 @@ class MyHomePage extends StatelessWidget {
               RTMCountryFlag(countryCode: "JPN"),
               RTMCountryFlag(countryCode: "au"),
               RTMCountryFlag(countryCode: "De"),
-              RTMCountryPicker(),
-              RTMCountriesPicker(),
+              RTMCountryPicker(
+                onChanged: (Country c) => print(c),
+              ),
+              RTMCountriesPicker(
+                onChanged: (List<Country> c) => print(c),
+              ),
+              RTMCountriesPicker(
+                builder: (List<Country> countryList) =>
+                    Text("Select a country"),
+                onChanged: (List<Country> c) => print(c),
+              ),
             ],
           ),
         ),
