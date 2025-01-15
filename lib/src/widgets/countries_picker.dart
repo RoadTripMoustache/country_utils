@@ -136,13 +136,13 @@ class CountriesPicker extends StatefulWidget {
 
     if (countryFilter != null && countryFilter!.isNotEmpty) {
       final uppercaseCustomList =
-      countryFilter!.map((c) => c.toUpperCase()).toList();
+          countryFilter!.map((c) => c.toUpperCase()).toList();
       elements = elements
           .where((c) =>
-      uppercaseCustomList.contains(c.isoCodeAlpha2) ||
-          uppercaseCustomList.contains(c.isoCodeAlpha3) ||
-          uppercaseCustomList.contains(c.name) ||
-          uppercaseCustomList.contains(c.dialCode))
+              uppercaseCustomList.contains(c.isoCodeAlpha2) ||
+              uppercaseCustomList.contains(c.isoCodeAlpha3) ||
+              uppercaseCustomList.contains(c.name) ||
+              uppercaseCustomList.contains(c.dialCode))
           .toList();
     }
 
@@ -204,10 +204,7 @@ class CountriesPickerState extends State<CountriesPicker> {
                   child: Text(
                     selectedItems[0].name,
                     style: widget.textStyle ??
-                        Theme
-                            .of(context)
-                            .textTheme
-                            .bodyMedium,
+                        Theme.of(context).textTheme.bodyMedium,
                     overflow: widget.textOverflow,
                   ),
                 ),
@@ -217,10 +214,7 @@ class CountriesPickerState extends State<CountriesPicker> {
                   child: Text(
                     " (+ ${selectedItems.length - 1})",
                     style: widget.textStyle ??
-                        Theme
-                            .of(context)
-                            .textTheme
-                            .bodyMedium,
+                        Theme.of(context).textTheme.bodyMedium,
                     overflow: widget.textOverflow,
                   ),
                 ),
@@ -260,7 +254,7 @@ class CountriesPickerState extends State<CountriesPicker> {
     if (oldWidget.initialSelection != widget.initialSelection) {
       if (widget.initialSelection.isNotEmpty) {
         selectedItems = elements.where(
-              (e) {
+          (e) {
             bool isSelected = false;
             for (final element in widget.initialSelection) {
               if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
@@ -287,7 +281,7 @@ class CountriesPickerState extends State<CountriesPicker> {
 
     if (widget.initialSelection.isNotEmpty) {
       selectedItems = elements.where(
-            (e) {
+        (e) {
           bool isSelected = false;
           for (final element in widget.initialSelection) {
             if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
@@ -307,12 +301,12 @@ class CountriesPickerState extends State<CountriesPicker> {
 
     favoriteElements = elements
         .where((e) =>
-    widget.favorite.firstWhereOrNull((f) =>
-    e.isoCodeAlpha2.toUpperCase() == f.toUpperCase() ||
-        e.isoCodeAlpha3.toUpperCase() == f.toUpperCase() ||
-        e.dialCode == f ||
-        e.name.toUpperCase() == f.toUpperCase()) !=
-        null)
+            widget.favorite.firstWhereOrNull((f) =>
+                e.isoCodeAlpha2.toUpperCase() == f.toUpperCase() ||
+                e.isoCodeAlpha3.toUpperCase() == f.toUpperCase() ||
+                e.dialCode == f ||
+                e.name.toUpperCase() == f.toUpperCase()) !=
+            null)
         .toList();
   }
 
@@ -324,36 +318,35 @@ class CountriesPickerState extends State<CountriesPicker> {
     unawaited(showDialog(
       barrierColor: widget.barrierColor ?? Colors.black.withAlpha(80),
       context: context,
-      builder: (context) =>
-          Center(
-            child: Container(
-              constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
-              child: Dialog(
-                child: SelectionMultiDialog(
-                  List.of(elements),
-                  List.of(selectedItems),
-                  List.of(favoriteElements),
-                  showCountryOnly: widget.showCountryOnly,
-                  emptySearchBuilder: widget.emptySearchBuilder,
-                  searchDecoration: widget.searchDecoration,
-                  searchStyle: widget.searchStyle,
-                  textStyle: widget.dialogTextStyle,
-                  selectedTextStyle: widget.selectedTextStyle,
-                  boxDecoration: widget.boxDecoration,
-                  showFlag: widget.showFlagDialog ?? widget.showFlag,
-                  flagWidth: widget.flagWidth,
-                  size: widget.dialogSize,
-                  backgroundColor: widget.dialogBackgroundColor,
-                  barrierColor: widget.barrierColor,
-                  hideSearch: widget.hideSearch,
-                  closeIcon: widget.closeIcon,
-                  flagDecoration: widget.flagDecoration,
-                  confirmButtonStyle: widget.confirmButtonStyle,
-                  confirmationButtonContent: widget.confirmationButtonContent,
-                ),
-              ),
+      builder: (context) => Center(
+        child: Container(
+          constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
+          child: Dialog(
+            child: SelectionMultiDialog(
+              List.of(elements),
+              List.of(selectedItems),
+              List.of(favoriteElements),
+              showCountryOnly: widget.showCountryOnly,
+              emptySearchBuilder: widget.emptySearchBuilder,
+              searchDecoration: widget.searchDecoration,
+              searchStyle: widget.searchStyle,
+              textStyle: widget.dialogTextStyle,
+              selectedTextStyle: widget.selectedTextStyle,
+              boxDecoration: widget.boxDecoration,
+              showFlag: widget.showFlagDialog ?? widget.showFlag,
+              flagWidth: widget.flagWidth,
+              size: widget.dialogSize,
+              backgroundColor: widget.dialogBackgroundColor,
+              barrierColor: widget.barrierColor,
+              hideSearch: widget.hideSearch,
+              closeIcon: widget.closeIcon,
+              flagDecoration: widget.flagDecoration,
+              confirmButtonStyle: widget.confirmButtonStyle,
+              confirmationButtonContent: widget.confirmationButtonContent,
             ),
           ),
+        ),
+      ),
     ).then((e) {
       if (e != null) {
         setState(() {
