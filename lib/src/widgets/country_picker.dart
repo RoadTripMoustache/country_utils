@@ -1,11 +1,10 @@
-library country_code_picker;
+//ignore_for_file: no_logic_in_create_state
+import "dart:async";
 
-import 'package:collection/collection.dart' show IterableExtension;
+import "package:collection/collection.dart" show IterableExtension;
 import "package:country_utils/country_utils.dart";
-import "package:country_utils/src/models/country.dart";
 import "package:country_utils/src/widgets/selection_single_dialog.dart";
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class CountryPicker extends StatefulWidget {
   final ValueChanged<Country>? onChanged;
@@ -76,7 +75,7 @@ class CountryPicker extends StatefulWidget {
   final List<Country>? countryList;
   final ButtonStyle? textButtonStyle;
 
-  CountryPicker({
+  const CountryPicker({
     this.onChanged,
     this.onInit,
     this.initialSelection,
@@ -110,8 +109,8 @@ class CountryPicker extends StatefulWidget {
     this.closeIcon = const Icon(Icons.close),
     this.countryList,
     this.textButtonStyle,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -280,8 +279,8 @@ class CountryPickerState extends State<CountryPicker> {
   }
 
   void showCountryPickerDialog() {
-    showDialog(
-      barrierColor: widget.barrierColor ?? Colors.grey.withOpacity(0.5),
+    unawaited(showDialog(
+      barrierColor: widget.barrierColor ?? Colors.black.withAlpha(80),
       // backgroundColor: widget.backgroundColor ?? Colors.transparent,
       context: context,
       builder: (context) => Center(
@@ -317,7 +316,7 @@ class CountryPickerState extends State<CountryPicker> {
 
         _publishSelection(e);
       }
-    });
+    }));
   }
 
   void _publishSelection(Country e) {

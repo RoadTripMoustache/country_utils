@@ -21,7 +21,8 @@ class SelectionSingleDialog extends StatefulWidget {
   /// Background color of SelectionDialog
   final Color? backgroundColor;
 
-  /// Boxshaow color of SelectionDialog that matches CountryCodePicker barrier color
+  /// BoxShadow color of SelectionDialog that matches CountryCodePicker barrier
+  /// color
   final Color? barrierColor;
 
   /// elements passed as favorite
@@ -30,7 +31,7 @@ class SelectionSingleDialog extends StatefulWidget {
   SelectionSingleDialog(
     this.elements,
     this.favoriteElements, {
-    Key? key,
+    super.key,
     this.showCountryOnly,
     this.emptySearchBuilder,
     InputDecoration searchDecoration = const InputDecoration(),
@@ -45,10 +46,9 @@ class SelectionSingleDialog extends StatefulWidget {
     this.barrierColor,
     this.hideSearch = false,
     this.closeIcon,
-  })  : this.searchDecoration = searchDecoration.prefixIcon == null
+  }) : searchDecoration = searchDecoration.prefixIcon == null
             ? searchDecoration.copyWith(prefixIcon: Icon(Icons.search))
-            : searchDecoration,
-        super(key: key);
+            : searchDecoration;
 
   @override
   State<StatefulWidget> createState() => _SelectionSingleDialogState();
@@ -60,7 +60,7 @@ class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(0.0),
+        padding: EdgeInsets.zero,
         child: Container(
           clipBehavior: Clip.hardEdge,
           width: widget.size?.width ?? MediaQuery.of(context).size.width,
@@ -72,7 +72,7 @@ class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 boxShadow: [
                   BoxShadow(
-                    color: widget.barrierColor ?? Colors.grey.withOpacity(1),
+                    color: widget.barrierColor ?? Colors.grey,
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow
@@ -84,7 +84,7 @@ class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 iconSize: 20,
                 icon: widget.closeIcon!,
                 onPressed: () => Navigator.pop(context),
@@ -101,22 +101,23 @@ class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
               Expanded(
                 child: ListView(
                   children: [
-                    widget.favoriteElements.isEmpty
-                        ? const DecoratedBox(decoration: BoxDecoration())
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...widget.favoriteElements.map(
-                                (f) => SimpleDialogOption(
-                                  child: _buildOption(f),
-                                  onPressed: () {
-                                    _selectItem(f);
-                                  },
-                                ),
-                              ),
-                              const Divider(),
-                            ],
+                    if (widget.favoriteElements.isEmpty)
+                      const DecoratedBox(decoration: BoxDecoration())
+                    else
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...widget.favoriteElements.map(
+                            (f) => SimpleDialogOption(
+                              child: _buildOption(f),
+                              onPressed: () {
+                                _selectItem(f);
+                              },
+                            ),
                           ),
+                          const Divider(),
+                        ],
+                      ),
                     if (filteredElements.isEmpty)
                       _buildEmptySearchWidget(context)
                     else
@@ -136,7 +137,7 @@ class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
         ),
       );
 
-  Widget _buildOption(Country e) => Container(
+  Widget _buildOption(Country e) => SizedBox(
         width: 400,
         child: Flex(
           direction: Axis.horizontal,
@@ -188,14 +189,14 @@ class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
   }
 
   void _filterElements(String s) {
-    s = s.toUpperCase();
+    final String upperS = s.toUpperCase();
     setState(() {
       filteredElements = widget.elements
           .where((e) =>
-              e.isoCodeAlpha2.contains(s) ||
-              e.isoCodeAlpha3.contains(s) ||
-              e.dialCode.contains(s) ||
-              e.name.toUpperCase().contains(s))
+              e.isoCodeAlpha2.toUpperCase().contains(upperS) ||
+              e.isoCodeAlpha3.toUpperCase().contains(upperS) ||
+              e.dialCode.toUpperCase().contains(upperS) ||
+              e.name.toUpperCase().contains(upperS))
           .toList();
       filteredElements.sort(
         (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),

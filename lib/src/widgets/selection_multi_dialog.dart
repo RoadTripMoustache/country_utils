@@ -23,7 +23,8 @@ class SelectionMultiDialog extends StatefulWidget {
   /// Background color of SelectionDialog
   final Color? backgroundColor;
 
-  /// Boxshaow color of SelectionDialog that matches CountryCodePicker barrier color
+  /// BoxShadow color of SelectionDialog that matches CountryCodePicker barrier
+  /// color
   final Color? barrierColor;
 
   /// elements passed as favorite
@@ -35,7 +36,7 @@ class SelectionMultiDialog extends StatefulWidget {
     this.elements,
     this.selected,
     this.favoriteElements, {
-    Key? key,
+    super.key,
     this.showCountryOnly,
     this.emptySearchBuilder,
     InputDecoration searchDecoration = const InputDecoration(),
@@ -57,7 +58,6 @@ class SelectionMultiDialog extends StatefulWidget {
     this.searchDecoration = searchDecoration.prefixIcon == null
         ? searchDecoration.copyWith(prefixIcon: Icon(Icons.search))
         : searchDecoration;
-    print("BUILD ;; $selected");
   }
 
   @override
@@ -71,7 +71,7 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(0.0),
+        padding: EdgeInsets.zero,
         child: Container(
           clipBehavior: Clip.hardEdge,
           width: widget.size?.width ?? MediaQuery.of(context).size.width,
@@ -83,7 +83,7 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
                 borderRadius: BorderRadius.all(Radius.circular(8.0)),
                 boxShadow: [
                   BoxShadow(
-                    color: widget.barrierColor ?? Colors.black.withOpacity(0.8),
+                    color: widget.barrierColor ?? Colors.black.withAlpha(220),
                     spreadRadius: 5,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow
@@ -95,7 +95,7 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               IconButton(
-                padding: const EdgeInsets.all(0),
+                padding: EdgeInsets.zero,
                 iconSize: 20,
                 icon: widget.closeIcon!,
                 onPressed: () => Navigator.pop(context),
@@ -112,38 +112,40 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
               Expanded(
                 child: ListView(
                   children: [
-                    widget.selected.isEmpty
-                        ? const DecoratedBox(decoration: BoxDecoration())
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...widget.selected.map(
-                                (f) => SimpleDialogOption(
-                                  child: _buildOption(f, isSelected: true),
-                                  onPressed: () {
-                                    _unselectItem(f);
-                                  },
-                                ),
-                              ),
-                              const Divider(),
-                            ],
+                    if (widget.selected.isEmpty)
+                      const DecoratedBox(decoration: BoxDecoration())
+                    else
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...widget.selected.map(
+                            (f) => SimpleDialogOption(
+                              child: _buildOption(f, isSelected: true),
+                              onPressed: () {
+                                _unselectItem(f);
+                              },
+                            ),
                           ),
-                    widget.favoriteElements.isEmpty
-                        ? const DecoratedBox(decoration: BoxDecoration())
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...widget.favoriteElements.map(
-                                (f) => SimpleDialogOption(
-                                  child: _buildOption(f),
-                                  onPressed: () {
-                                    _selectItem(f);
-                                  },
-                                ),
-                              ),
-                              const Divider(),
-                            ],
+                          const Divider(),
+                        ],
+                      ),
+                    if (widget.favoriteElements.isEmpty)
+                      const DecoratedBox(decoration: BoxDecoration())
+                    else
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ...widget.favoriteElements.map(
+                            (f) => SimpleDialogOption(
+                              child: _buildOption(f),
+                              onPressed: () {
+                                _selectItem(f);
+                              },
+                            ),
                           ),
+                          const Divider(),
+                        ],
+                      ),
                     if (filteredElements.isEmpty)
                       _buildEmptySearchWidget(context)
                     else
@@ -174,7 +176,7 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
         ),
       );
 
-  Widget _buildOption(Country e, {bool isSelected = false}) => Container(
+  Widget _buildOption(Country e, {bool isSelected = false}) => SizedBox(
         width: 400,
         child: Flex(
           direction: Axis.horizontal,
@@ -210,12 +212,6 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
       return widget.emptySearchBuilder!(context);
     }
 
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    print(CountryLocalizations.of(context));
-    print(CountryLocalizations.of(context)?.translate("no_country"));
     return Center(
       child: Text(CountryLocalizations.of(context)?.translate("no_country") ??
           "No country found"),
@@ -224,7 +220,6 @@ class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
 
   @override
   void initState() {
-    print("INIT STATE !! ");
     updatedSelection = widget.selected;
     updatedSelection.sort(
       (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),

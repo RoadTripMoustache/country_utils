@@ -1,12 +1,10 @@
-library country_code_picker;
+//ignore_for_file: no_logic_in_create_state
+import "dart:async";
 
-import 'package:collection/collection.dart' show IterableExtension;
+import "package:collection/collection.dart" show IterableExtension;
 import "package:country_utils/country_utils.dart";
-import "package:country_utils/src/models/country.dart";
 import "package:country_utils/src/widgets/selection_multi_dialog.dart";
-import "package:country_utils/src/widgets/selection_single_dialog.dart";
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class CountriesPicker extends StatefulWidget {
   final ValueChanged<List<Country>>? onChanged;
@@ -82,7 +80,7 @@ class CountriesPicker extends StatefulWidget {
   final ButtonStyle? confirmButtonStyle;
   final Widget? confirmationButtonContent;
 
-  CountriesPicker({
+  const CountriesPicker({
     this.placeholder,
     this.onChanged,
     this.onInit,
@@ -120,12 +118,11 @@ class CountriesPicker extends StatefulWidget {
     this.textButtonStyle,
     this.confirmButtonStyle,
     this.confirmationButtonContent,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {
-    print("this.initialSelection :::: ${this.initialSelection}");
     List<Country> elements = List.empty(growable: true);
 
     if (countryList != null) {
@@ -139,13 +136,13 @@ class CountriesPicker extends StatefulWidget {
 
     if (countryFilter != null && countryFilter!.isNotEmpty) {
       final uppercaseCustomList =
-          countryFilter!.map((c) => c.toUpperCase()).toList();
+      countryFilter!.map((c) => c.toUpperCase()).toList();
       elements = elements
           .where((c) =>
-              uppercaseCustomList.contains(c.isoCodeAlpha2) ||
-              uppercaseCustomList.contains(c.isoCodeAlpha3) ||
-              uppercaseCustomList.contains(c.name) ||
-              uppercaseCustomList.contains(c.dialCode))
+      uppercaseCustomList.contains(c.isoCodeAlpha2) ||
+          uppercaseCustomList.contains(c.isoCodeAlpha3) ||
+          uppercaseCustomList.contains(c.name) ||
+          uppercaseCustomList.contains(c.dialCode))
           .toList();
     }
 
@@ -207,7 +204,10 @@ class CountriesPickerState extends State<CountriesPicker> {
                   child: Text(
                     selectedItems[0].name,
                     style: widget.textStyle ??
-                        Theme.of(context).textTheme.bodyMedium,
+                        Theme
+                            .of(context)
+                            .textTheme
+                            .bodyMedium,
                     overflow: widget.textOverflow,
                   ),
                 ),
@@ -217,7 +217,10 @@ class CountriesPickerState extends State<CountriesPicker> {
                   child: Text(
                     " (+ ${selectedItems.length - 1})",
                     style: widget.textStyle ??
-                        Theme.of(context).textTheme.bodyMedium,
+                        Theme
+                            .of(context)
+                            .textTheme
+                            .bodyMedium,
                     overflow: widget.textOverflow,
                   ),
                 ),
@@ -252,13 +255,12 @@ class CountriesPickerState extends State<CountriesPicker> {
 
   @override
   void didUpdateWidget(CountriesPicker oldWidget) {
-    print("didUpdateWidget 00 :: $selectedItems");
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.initialSelection != widget.initialSelection) {
       if (widget.initialSelection.isNotEmpty) {
         selectedItems = elements.where(
-          (e) {
+              (e) {
             bool isSelected = false;
             for (final element in widget.initialSelection) {
               if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
@@ -272,24 +274,20 @@ class CountriesPickerState extends State<CountriesPicker> {
             return isSelected;
           },
         ).toList();
-        print("didUpdateWidget 1 :: $selectedItems");
       } else {
         selectedItems = [];
-        print("didUpdateWidget 2 :: $selectedItems");
       }
       _onInit(selectedItems);
     }
-    print("didUpdateWidget :: $selectedItems");
   }
 
   @override
   void initState() {
-    print(">>> widget.initialSelection :: ${widget.initialSelection}");
     super.initState();
 
     if (widget.initialSelection.isNotEmpty) {
       selectedItems = elements.where(
-        (e) {
+            (e) {
           bool isSelected = false;
           for (final element in widget.initialSelection) {
             if (element.toUpperCase() == e.isoCodeAlpha2.toUpperCase() ||
@@ -303,22 +301,19 @@ class CountriesPickerState extends State<CountriesPicker> {
           return isSelected;
         },
       ).toList();
-      print("initState 1 :: $selectedItems");
     } else {
       selectedItems = [];
-      print("initState 2 :: $selectedItems");
     }
 
     favoriteElements = elements
         .where((e) =>
-            widget.favorite.firstWhereOrNull((f) =>
-                e.isoCodeAlpha2.toUpperCase() == f.toUpperCase() ||
-                e.isoCodeAlpha3.toUpperCase() == f.toUpperCase() ||
-                e.dialCode == f ||
-                e.name.toUpperCase() == f.toUpperCase()) !=
-            null)
+    widget.favorite.firstWhereOrNull((f) =>
+    e.isoCodeAlpha2.toUpperCase() == f.toUpperCase() ||
+        e.isoCodeAlpha3.toUpperCase() == f.toUpperCase() ||
+        e.dialCode == f ||
+        e.name.toUpperCase() == f.toUpperCase()) !=
+        null)
         .toList();
-    print("initState :: $selectedItems");
   }
 
   // TODO DOC README
@@ -326,64 +321,55 @@ class CountriesPickerState extends State<CountriesPicker> {
   // TODO Unit tests
   // TODO Lint
   void showCountryPickerDialog() {
-    print("showCountryPickerDialog :: $selectedItems");
-    showDialog(
-      barrierColor: widget.barrierColor ?? Colors.black.withOpacity(0.2),
-      // backgroundColor: widget.backgroundColor ?? Colors.transparent,
+    unawaited(showDialog(
+      barrierColor: widget.barrierColor ?? Colors.black.withAlpha(80),
       context: context,
-      builder: (context) => Center(
-        child: Container(
-          constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
-          child: Dialog(
-            child: SelectionMultiDialog(
-              List.of(elements),
-              List.of(selectedItems),
-              List.of(favoriteElements),
-              showCountryOnly: widget.showCountryOnly,
-              emptySearchBuilder: widget.emptySearchBuilder,
-              searchDecoration: widget.searchDecoration,
-              searchStyle: widget.searchStyle,
-              textStyle: widget.dialogTextStyle,
-              selectedTextStyle: widget.selectedTextStyle,
-              boxDecoration: widget.boxDecoration,
-              showFlag: widget.showFlagDialog != null
-                  ? widget.showFlagDialog
-                  : widget.showFlag,
-              flagWidth: widget.flagWidth,
-              size: widget.dialogSize,
-              backgroundColor: widget.dialogBackgroundColor,
-              barrierColor: widget.barrierColor,
-              hideSearch: widget.hideSearch,
-              closeIcon: widget.closeIcon,
-              flagDecoration: widget.flagDecoration,
-              confirmButtonStyle: widget.confirmButtonStyle,
-              confirmationButtonContent: widget.confirmationButtonContent,
+      builder: (context) =>
+          Center(
+            child: Container(
+              constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
+              child: Dialog(
+                child: SelectionMultiDialog(
+                  List.of(elements),
+                  List.of(selectedItems),
+                  List.of(favoriteElements),
+                  showCountryOnly: widget.showCountryOnly,
+                  emptySearchBuilder: widget.emptySearchBuilder,
+                  searchDecoration: widget.searchDecoration,
+                  searchStyle: widget.searchStyle,
+                  textStyle: widget.dialogTextStyle,
+                  selectedTextStyle: widget.selectedTextStyle,
+                  boxDecoration: widget.boxDecoration,
+                  showFlag: widget.showFlagDialog ?? widget.showFlag,
+                  flagWidth: widget.flagWidth,
+                  size: widget.dialogSize,
+                  backgroundColor: widget.dialogBackgroundColor,
+                  barrierColor: widget.barrierColor,
+                  hideSearch: widget.hideSearch,
+                  closeIcon: widget.closeIcon,
+                  flagDecoration: widget.flagDecoration,
+                  confirmButtonStyle: widget.confirmButtonStyle,
+                  confirmationButtonContent: widget.confirmationButtonContent,
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     ).then((e) {
-      print("RECEIVE DATA :: $e");
       if (e != null) {
         setState(() {
           selectedItems = e;
-          print("open diagog 1 :: $selectedItems");
         });
 
         _publishSelection(e);
       }
-    });
+    }));
   }
 
   void _publishSelection(List<Country> e) {
-    if (widget.onChanged != null) {
-      widget.onChanged!(e);
-    }
+    widget.onChanged?.call(e);
   }
 
   void _onInit(List<Country> e) {
-    if (widget.onInit != null) {
-      widget.onInit!(e);
-    }
+    widget.onInit?.call(e);
   }
 }
