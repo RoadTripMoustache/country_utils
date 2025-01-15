@@ -12,7 +12,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-              child: RTMCountryPicker(),
+            child: RTMCountryPicker(),
           ),
         );
         await tester.pumpAndSettle();
