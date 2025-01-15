@@ -6,7 +6,7 @@ import "package:country_utils/country_utils.dart";
 import "package:country_utils/src/widgets/selection_multi_dialog.dart";
 import "package:flutter/material.dart";
 
-class CountriesPicker extends StatefulWidget {
+class RTMCountriesPicker extends StatefulWidget {
   final ValueChanged<List<Country>>? onChanged;
   final ValueChanged<List<Country>>? onInit;
   final List<String> initialSelection;
@@ -75,12 +75,19 @@ class CountriesPicker extends StatefulWidget {
   /// with customized codes.
   final List<Country>? countryList;
 
+  /// Placeholder to add if no countries are selected.
   final Widget? placeholder;
+
+  /// [ButtonStyle] to apply to the [TextButton] built to open the dialog.
   final ButtonStyle? textButtonStyle;
+
+  /// [ButtonStyle] of the confirmation button in the dialog.
   final ButtonStyle? confirmButtonStyle;
+
+  /// [Widget] to put in the confirmation button.
   final Widget? confirmationButtonContent;
 
-  const CountriesPicker({
+  const RTMCountriesPicker({
     this.placeholder,
     this.onChanged,
     this.onInit,
@@ -146,16 +153,16 @@ class CountriesPicker extends StatefulWidget {
           .toList();
     }
 
-    return CountriesPickerState(elements);
+    return RTMCountriesPickerState(elements);
   }
 }
 
-class CountriesPickerState extends State<CountriesPicker> {
+class RTMCountriesPickerState extends State<RTMCountriesPicker> {
   List<Country> selectedItems = [];
   List<Country> elements = [];
   List<Country> favoriteElements = [];
 
-  CountriesPickerState(this.elements);
+  RTMCountriesPickerState(this.elements);
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +182,11 @@ class CountriesPickerState extends State<CountriesPicker> {
             direction: Axis.horizontal,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              if (selectedItems.isEmpty) widget.placeholder ?? Text("..."),
+              if (selectedItems.isEmpty)
+                widget.placeholder ??
+                    Text(CountryLocalizations.of(context)
+                            ?.translate("no_selection") ??
+                        "Select a country"),
               if (selectedItems.isNotEmpty &&
                   (widget.showFlagMain != null
                       ? widget.showFlagMain!
@@ -248,7 +259,7 @@ class CountriesPickerState extends State<CountriesPicker> {
   }
 
   @override
-  void didUpdateWidget(CountriesPicker oldWidget) {
+  void didUpdateWidget(RTMCountriesPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.initialSelection != widget.initialSelection) {
@@ -310,10 +321,6 @@ class CountriesPickerState extends State<CountriesPicker> {
         .toList();
   }
 
-  // TODO DOC README
-  // TODO CHANGELOG
-  // TODO Unit tests
-  // TODO Lint
   void showCountryPickerDialog() {
     unawaited(showDialog(
       barrierColor: widget.barrierColor ?? Colors.black.withAlpha(80),
@@ -322,7 +329,7 @@ class CountriesPickerState extends State<CountriesPicker> {
         child: Container(
           constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
           child: Dialog(
-            child: SelectionMultiDialog(
+            child: RTMSelectionMultiDialog(
               List.of(elements),
               List.of(selectedItems),
               List.of(favoriteElements),

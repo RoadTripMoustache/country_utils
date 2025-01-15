@@ -249,5 +249,6 @@
     "SX": "Saint-Martin (partie néerlandaise)",
     "SS": "Sud-Soudan",
     "XK": "Kosovo",
-    "no_country": "Aucun pays trouvé"
+    "no_country": "Aucun pays trouvé",
+    "no_selection": "Sélectionne un pays"
 }

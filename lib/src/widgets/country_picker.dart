@@ -6,7 +6,7 @@ import "package:country_utils/country_utils.dart";
 import "package:country_utils/src/widgets/selection_single_dialog.dart";
 import "package:flutter/material.dart";
 
-class CountryPicker extends StatefulWidget {
+class RTMCountryPicker extends StatefulWidget {
   final ValueChanged<Country>? onChanged;
   final ValueChanged<Country?>? onInit;
   final String? initialSelection;
@@ -73,9 +73,11 @@ class CountryPicker extends StatefulWidget {
   /// An optional argument for injecting a list of countries
   /// with customized codes.
   final List<Country>? countryList;
+
+  /// [ButtonStyle] to apply to the [TextButton] built to open the dialog.
   final ButtonStyle? textButtonStyle;
 
-  const CountryPicker({
+  const RTMCountryPicker({
     this.onChanged,
     this.onInit,
     this.initialSelection,
@@ -137,16 +139,16 @@ class CountryPicker extends StatefulWidget {
           .toList();
     }
 
-    return CountryPickerState(elements);
+    return RTMCountryPickerState(elements);
   }
 }
 
-class CountryPickerState extends State<CountryPicker> {
+class RTMCountryPickerState extends State<RTMCountryPicker> {
   Country? selectedItem;
   List<Country> elements = [];
   List<Country> favoriteElements = [];
 
-  CountryPickerState(this.elements);
+  RTMCountryPickerState(this.elements);
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +229,7 @@ class CountryPickerState extends State<CountryPicker> {
   }
 
   @override
-  void didUpdateWidget(CountryPicker oldWidget) {
+  void didUpdateWidget(RTMCountryPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.initialSelection != widget.initialSelection) {
@@ -287,7 +289,7 @@ class CountryPickerState extends State<CountryPicker> {
         child: Container(
           constraints: BoxConstraints(maxHeight: 500, maxWidth: 400),
           child: Dialog(
-            child: SelectionSingleDialog(
+            child: RTMSelectionSingleDialog(
               elements,
               favoriteElements,
               showCountryOnly: widget.showCountryOnly,

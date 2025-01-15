@@ -2,8 +2,8 @@ import "package:country_utils/country_utils.dart";
 import "package:diacritic/diacritic.dart";
 import "package:flutter/material.dart";
 
-/// selection dialog used for selection of the country code
-class SelectionSingleDialog extends StatefulWidget {
+/// Selection dialog used for selection of a country.
+class RTMSelectionSingleDialog extends StatefulWidget {
   final List<Country> elements;
   final bool? showCountryOnly;
   final InputDecoration searchDecoration;
@@ -28,7 +28,7 @@ class SelectionSingleDialog extends StatefulWidget {
   /// elements passed as favorite
   final List<Country> favoriteElements;
 
-  SelectionSingleDialog(
+  RTMSelectionSingleDialog(
     this.elements,
     this.favoriteElements, {
     super.key,
@@ -51,11 +51,11 @@ class SelectionSingleDialog extends StatefulWidget {
             : searchDecoration;
 
   @override
-  State<StatefulWidget> createState() => _SelectionSingleDialogState();
+  State<StatefulWidget> createState() => _RTMSelectionSingleDialogState();
 }
 
-class _SelectionSingleDialogState extends State<SelectionSingleDialog> {
-  /// this is useful for filtering purpose
+class _RTMSelectionSingleDialogState extends State<RTMSelectionSingleDialog> {
+  /// Current list of elements filtered with the input selection.
   late List<Country> filteredElements;
 
   @override

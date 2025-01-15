@@ -2,8 +2,8 @@ import "package:country_utils/country_utils.dart";
 import "package:diacritic/diacritic.dart";
 import "package:flutter/material.dart";
 
-/// selection dialog used for selection of the country code
-class SelectionMultiDialog extends StatefulWidget {
+/// Selection dialog used for selection of the multiple countries.
+class RTMSelectionMultiDialog extends StatefulWidget {
   final List<Country> elements;
   final List<Country> selected;
   final bool? showCountryOnly;
@@ -29,10 +29,14 @@ class SelectionMultiDialog extends StatefulWidget {
 
   /// elements passed as favorite
   final List<Country> favoriteElements;
+
+  /// [ButtonStyle] of the confirmation button in the dialog.
   final ButtonStyle? confirmButtonStyle;
+
+  /// [Widget] to put in the confirmation button.
   final Widget? confirmationButtonContent;
 
-  SelectionMultiDialog(
+  RTMSelectionMultiDialog(
     this.elements,
     this.selected,
     this.favoriteElements, {
@@ -61,12 +65,14 @@ class SelectionMultiDialog extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() => _SelectionMultiDialogState();
+  State<StatefulWidget> createState() => _RTMSelectionMultiDialogState();
 }
 
-class _SelectionMultiDialogState extends State<SelectionMultiDialog> {
-  /// this is useful for filtering purpose
+class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
+  /// Current list of elements filtered with the input selection.
   late List<Country> filteredElements;
+
+  /// Updated list of selected countries before submission.
   late List<Country> updatedSelection;
 
   @override
