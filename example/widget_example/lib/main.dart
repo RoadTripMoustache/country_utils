@@ -43,12 +43,41 @@ class MyHomePage extends StatelessWidget {
               RTMCountryPicker(
                 onChanged: (Country c) => c.name,
               ),
+              RTMCountryPicker(
+                builder: (Country? country) => Container(
+                  width: 400,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text("Select a country"),
+                ),
+                onChanged: (Country c) => c.name,
+              ),
+              RTMCountryPicker(
+                buttonBuilder: (Country? country, VoidCallback onTap) =>
+                    TextButton(
+                  onPressed: onTap,
+                  child: Text("Select a country"),
+                ),
+                onChanged: (Country c) => c.name,
+              ),
               RTMCountriesPicker(
                 onChanged: (List<Country> c) => c.length,
               ),
               RTMCountriesPicker(
                 builder: (List<Country> countryList) =>
                     Text("Select a country"),
+                onChanged: (List<Country> c) => c.length,
+              ),
+              RTMCountriesPicker(
+                buttonBuilder:
+                    (List<Country> countryList, VoidCallback onTap) =>
+                        TextButton(
+                  onPressed: onTap,
+                  child: Text("Select a country"),
+                ),
                 onChanged: (List<Country> c) => c.length,
               ),
             ],

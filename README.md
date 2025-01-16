@@ -88,11 +88,21 @@ Fully customizable widget which displays a button which opens a dialog allowing 
 // Default country picker which display the selected country on change
 RTMCountryPicker(onChanged: (Country c) => print(c))
 
-// Picker with a custom widget to display the selector and/or the selection
+// Picker with a custom widget to display the selector and/or the selection. The widget will be wrapped in an InkWell
 RTMCountryPicker(
     builder: (Country c) => Text("Select a country"),
     onChanged: (Country c) => print(c),
 )
+
+// Picker with a custom widget to display the selector and/or the selection which will trigger the dialog opening on calling the VoidCallback parameter
+RTMCountryPicker(
+    buttonBuilder: (Country? country, VoidCallback onTap) =>
+        TextButton(
+            onPressed: onTap,
+            child: Text("Select a country"),
+        ),
+    onChanged: (Country c) => c.name,
+),
 ```
 
 #### RTMCountriesPicker
@@ -102,11 +112,21 @@ Fully customizable widget which displays a button which opens a dialog allowing 
 // Default countries picker which display the selected country on change
 RTMCountriesPicker(onChanged: (List<Country> c) => print(c))
 
-// Picker with a custom widget to display the selector and/or the selection
+// Picker with a custom widget to display the selector and/or the selection. The widget will be wrapped in an InkWell
 RTMCountriesPicker(
     builder: (List<Country> countryList) => Text("Select countries"),
     onChanged: (List<Country> c) => print(c),
 )
+
+// Picker with a custom widget to display the selector and/or the selection which will trigger the dialog opening on calling the VoidCallback parameter
+RTMCountriesPicker(
+    buttonBuilder: (List<Country> countryList, VoidCallback onTap) =>
+        TextButton(
+            onPressed: onTap,
+            child: Text("Select countries"),
+        ),  
+    onChanged: (List<Country> c) => print(c),
+),
 ```
 
 ---

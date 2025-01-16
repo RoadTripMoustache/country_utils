@@ -19,10 +19,17 @@ class RTMCountriesPicker extends StatefulWidget {
   final TextStyle? searchStyle;
   final TextStyle? dialogTextStyle;
   final WidgetBuilder? emptySearchBuilder;
-  final Function(List<Country>)? builder;
   final bool enabled;
   final TextOverflow textOverflow;
   final Icon closeIcon;
+
+  /// Builder to create the widget which will be put in an [InkWell] which
+  /// will triggers the dialog opening on click.
+  final Function(List<Country>)? builder;
+
+  /// Builder to create a widget which will be able to trigger the opening
+  /// of the dialog on calling the [VoidCallback] parameter.
+  final Function(List<Country>, VoidCallback)? buttonBuilder;
 
   /// Barrier color of ModalBottomSheet
   final Color? barrierColor;
@@ -108,6 +115,7 @@ class RTMCountriesPicker extends StatefulWidget {
     this.showFlagMain,
     this.flagDecoration,
     this.builder,
+    this.buttonBuilder,
     this.flagWidth = 32.0,
     this.enabled = true,
     this.textOverflow = TextOverflow.ellipsis,
@@ -167,7 +175,12 @@ class RTMCountriesPickerState extends State<RTMCountriesPicker> {
   @override
   Widget build(BuildContext context) {
     Widget builtWidget;
-    if (widget.builder != null) {
+    if (widget.buttonBuilder != null) {
+      builtWidget = widget.buttonBuilder!(
+        selectedItems,
+        showCountryPickerDialog,
+      );
+    } else if (widget.builder != null) {
       builtWidget = InkWell(
         onTap: showCountryPickerDialog,
         child: widget.builder!(selectedItems),
