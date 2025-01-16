@@ -1,4 +1,7 @@
 ## Unreleased
+
+
+## 0.4.0 - 16/01/2025
 ### Added
 - feat: Add a button builder in the pickers widgets
 
