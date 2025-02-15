@@ -250,5 +250,6 @@
     "SS": "South Sudan",
     "XK": "Kosovo",
     "no_country": "No country found",
-    "no_selection": "Select a country"
+    "no_selection": "Select a country",
+    "selected_countries": "Selected countries"
 }

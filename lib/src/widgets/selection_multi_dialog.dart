@@ -76,111 +76,128 @@ class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
   late List<Country> updatedSelection;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.zero,
-        child: Container(
-          clipBehavior: Clip.hardEdge,
-          width: widget.size?.width ?? MediaQuery.of(context).size.width,
-          height:
-              widget.size?.height ?? MediaQuery.of(context).size.height * 0.85,
-          decoration: widget.boxDecoration ??
-              BoxDecoration(
-                color: widget.backgroundColor ?? Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: widget.barrierColor ?? Colors.black.withAlpha(220),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
+  Widget build(BuildContext context) {
+    final String selectionLabel =
+        CountryLocalizations.of(context)?.translate("selected_countries") ??
+            "Selected countries";
+    return Padding(
+      padding: EdgeInsets.zero,
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        width: widget.size?.width ?? MediaQuery.of(context).size.width,
+        height:
+            widget.size?.height ?? MediaQuery.of(context).size.height * 0.85,
+        decoration: widget.boxDecoration ??
+            BoxDecoration(
+              color: widget.backgroundColor ?? Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              boxShadow: [
+                BoxShadow(
+                  color: widget.barrierColor ?? Colors.black.withAlpha(220),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            IconButton(
+              padding: EdgeInsets.zero,
+              iconSize: 20,
+              icon: widget.closeIcon!,
+              onPressed: () => Navigator.pop(context),
+            ),
+            if (!widget.hideSearch)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: TextField(
+                  style: widget.searchStyle,
+                  decoration: widget.searchDecoration,
+                  onChanged: _filterElements,
+                ),
+              ),
+            Expanded(
+              child: ListView(
+                children: [
+                  if (widget.selected.isEmpty)
+                    const DecoratedBox(decoration: BoxDecoration())
+                  else
+                    ExpansionTile(
+                      title: Text(
+                        "$selectionLabel (${widget.selected.length})",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      shape: Border.all(color: Colors.transparent),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      children: <Widget>[
+                        ...widget.selected.map(
+                          (f) => SimpleDialogOption(
+                            child: _buildOption(f, isSelected: true),
+                            onPressed: () {
+                              _unselectItem(f);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  const Divider(),
+                  if (widget.favoriteElements.isEmpty)
+                    const DecoratedBox(decoration: BoxDecoration())
+                  else
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ...widget.favoriteElements.map(
+                          (f) => SimpleDialogOption(
+                            child: _buildOption(f),
+                            onPressed: () {
+                              _selectItem(f);
+                            },
+                          ),
+                        ),
+                        const Divider(),
+                      ],
+                    ),
+                  if (filteredElements.isEmpty)
+                    _buildEmptySearchWidget(context)
+                  else
+                    ...filteredElements.map(
+                      (e) {
+                        final bool isSelected = _isSelected(e);
+                        return SimpleDialogOption(
+                          child: _buildOption(e, isSelected: isSelected),
+                          onPressed: () {
+                            if (isSelected) {
+                              _unselectItem(e);
+                            } else {
+                              _selectItem(e);
+                            }
+                          },
+                        );
+                      },
+                    ),
                 ],
               ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                iconSize: 20,
-                icon: widget.closeIcon!,
-                onPressed: () => Navigator.pop(context),
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: FilledButton(
+                    style: widget.confirmButtonStyle,
+                    onPressed: () {
+                      Navigator.pop(context, updatedSelection);
+                    },
+                    child: widget.confirmationButtonContent ?? Text("OK")),
               ),
-              if (!widget.hideSearch)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: TextField(
-                    style: widget.searchStyle,
-                    decoration: widget.searchDecoration,
-                    onChanged: _filterElements,
-                  ),
-                ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    if (widget.selected.isEmpty)
-                      const DecoratedBox(decoration: BoxDecoration())
-                    else
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ...widget.selected.map(
-                            (f) => SimpleDialogOption(
-                              child: _buildOption(f, isSelected: true),
-                              onPressed: () {
-                                _unselectItem(f);
-                              },
-                            ),
-                          ),
-                          const Divider(),
-                        ],
-                      ),
-                    if (widget.favoriteElements.isEmpty)
-                      const DecoratedBox(decoration: BoxDecoration())
-                    else
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ...widget.favoriteElements.map(
-                            (f) => SimpleDialogOption(
-                              child: _buildOption(f),
-                              onPressed: () {
-                                _selectItem(f);
-                              },
-                            ),
-                          ),
-                          const Divider(),
-                        ],
-                      ),
-                    if (filteredElements.isEmpty)
-                      _buildEmptySearchWidget(context)
-                    else
-                      ...filteredElements.map(
-                        (e) => SimpleDialogOption(
-                          child: _buildOption(e),
-                          onPressed: () {
-                            _selectItem(e);
-                          },
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: FilledButton(
-                      style: widget.confirmButtonStyle,
-                      onPressed: () {
-                        Navigator.pop(context, updatedSelection);
-                      },
-                      child: widget.confirmationButtonContent ?? Text("OK")),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   Widget _buildOption(Country e, {bool isSelected = false}) => SizedBox(
         width: 400,
@@ -209,6 +226,7 @@ class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
                 style: isSelected ? widget.selectedTextStyle : widget.textStyle,
               ),
             ),
+            if (isSelected) Icon(Icons.check_rounded),
           ],
         ),
       );
@@ -242,7 +260,6 @@ class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
     final String upperS = s.toUpperCase();
     setState(() {
       filteredElements = widget.elements
-          .where((c) => !updatedSelection.contains(c))
           .where((e) =>
               e.isoCodeAlpha2.toUpperCase().contains(upperS) ||
               e.isoCodeAlpha3.toUpperCase().contains(upperS) ||
@@ -255,6 +272,16 @@ class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
     });
   }
 
+  bool _isSelected(Country c) {
+    bool isSelected = false;
+    for (final element in updatedSelection) {
+      if (!isSelected && element.name.toUpperCase() == c.name.toUpperCase()) {
+        isSelected = true;
+      }
+    }
+    return isSelected;
+  }
+
   void _selectItem(Country e) {
     setState(() {
       updatedSelection
@@ -263,7 +290,6 @@ class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
           (a, b) =>
               removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
         );
-      filteredElements = filteredElements.where((c) => c != e).toList();
       filteredElements.sort(
         (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
       );
@@ -278,12 +304,9 @@ class _RTMSelectionMultiDialogState extends State<RTMSelectionMultiDialog> {
           (a, b) =>
               removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
         );
-      filteredElements
-        ..add(e)
-        ..sort(
-          (a, b) =>
-              removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
-        );
+      filteredElements.sort(
+        (a, b) => removeDiacritics(a.name).compareTo(removeDiacritics(b.name)),
+      );
     });
   }
 }

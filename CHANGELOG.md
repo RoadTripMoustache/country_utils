@@ -1,5 +1,8 @@
 ## Unreleased
 
+## 0.5.0 - 15/02/2025
+### Updated
+- refactor: Selection Multi Dialog to have a better understanding of what is selected
 
 ## 0.4.0 - 16/01/2025
 ### Added
