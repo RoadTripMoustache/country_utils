@@ -1,4 +1,6 @@
 ## Unreleased
+### Updated
+- ci: Bump library versions
 
 ## 0.5.0 - 15/02/2025
 ### Updated
