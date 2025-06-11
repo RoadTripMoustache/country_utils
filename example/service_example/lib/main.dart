@@ -11,21 +11,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) => MaterialApp(
-        localizationsDelegates: [
-          CountryLocalizations.delegate,
-        ],
-        supportedLocales: [
-          Locale("en"),
-          Locale("es"),
-        ],
-        title: "country_utils - Services",
-        locale: Locale("es"),
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const MyHomePage(),
-      );
+    localizationsDelegates: [CountryLocalizations.delegate],
+    supportedLocales: [Locale("en"), Locale("es")],
+    title: "country_utils - Services",
+    locale: Locale("es"),
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      useMaterial3: true,
+    ),
+    home: const MyHomePage(),
+  );
 }
 
 class MyHomePage extends StatelessWidget {
@@ -38,9 +33,7 @@ class MyHomePage extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(country?.name ?? "Country not found"),
-          ],
+          children: <Widget>[Text(country?.name ?? "Country not found")],
         ),
       ),
     );

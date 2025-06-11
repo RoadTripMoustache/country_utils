@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   diacritic: ^0.1.6
-  collection: ^1.19.0
+  collection: ^1.19.1
 
 dev_dependencies:
   flutter_test:
